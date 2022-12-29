@@ -10,6 +10,8 @@ class ReadThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $thread;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -20,7 +22,7 @@ class ReadThreadsTest extends TestCase
     /** @test */
     public function a_user_can_view_all_threads()
     {
-        $response = $this->get('/threads')
+        $this->get('/threads')
             ->assertSee($this->thread->title);
     }
 

@@ -2,14 +2,15 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ParticipateInForum extends TestCase
+class ParticipateInForumTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
-    function a_authenticated_user_may_participate_in_forum_thread()
+    function a_authenticated_user_may_participate_in_forum_threads()
     {
         $this->be($user = factory('App\User')->create());
 
