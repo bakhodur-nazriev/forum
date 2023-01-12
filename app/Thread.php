@@ -8,14 +8,18 @@ class Thread extends Model
 {
     protected $guarded = [];
 
-    public function path()
+    protected static function boot()
     {
-        return '/threads/' . $this->id;
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function ($builder) {
+            $builder->withCount('replies');
+        });
     }
 
-    public function replies()
+    public function path()
     {
-        return $this->hasMany(Reply::class);
+        return "/threads/{$this->channel->slug}/{$this->id}";
     }
 
     public function creator()
@@ -23,8 +27,23 @@ class Thread extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function channel()
+    {
+        return $this->belongsTo(Channel::class);
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
     public function addReply($reply)
     {
         $this->replies()->create($reply);
+    }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
     }
 }
