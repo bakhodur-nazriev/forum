@@ -9,8 +9,12 @@
 
             <div>
                 <form method="POST" action="/replies/{{ $reply->id }}/favorites">
+
                     {{ csrf_field() }}
-                    <button type="submit" class="btn btn-primary">Favorite</button>
+
+                    <button type="submit" class="btn btn-primary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+                        {{ $reply->favorites()->count() }} {{ Str::plural('Favorite', $reply->favorites()->count()) }}
+                    </button>
                 </form>
             </div>
         </div>
